@@ -35,6 +35,7 @@ jobs:
         run: |
           cd ios
           # Build the release app for ARM64 (real device) but disable all signing checks
+          # Using CONFIGURATION_BUILD_DIR forces the output into a predictable local folder
           xcodebuild -workspace FinanzasJG.xcworkspace \
             -scheme FinanzasJG \
             -configuration Release \
@@ -43,12 +44,13 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            CONFIGURATION_BUILD_DIR="$(PWD)/build/Release-iphoneos" \
             build
 
       - name: Package to .ipa
         run: |
-          # The app is compiled into the Build/Products/Release-iphoneos directory
-          cd ios/build/Build/Products/Release-iphoneos
+          # The app is compiled into the CONFIGURATION_BUILD_DIR we specified above
+          cd ios/build/Release-iphoneos
           mkdir Payload
           # Move the .app into Payload (required structure for IPA)
           mv FinanzasJG.app Payload/
@@ -59,5 +61,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: finanzas-jg-unsigned
-          path: ios/build/Build/Products/Release-iphoneos/finanzas-jg-unsigned.ipa
+          path: ios/build/Release-iphoneos/finanzas-jg-unsigned.ipa
           retention-days: 7
