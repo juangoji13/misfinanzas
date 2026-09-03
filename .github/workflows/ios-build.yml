@@ -35,7 +35,7 @@ jobs:
         run: |
           cd ios
           # Build the release app for ARM64 (real device) but disable all signing checks
-          # Using CONFIGURATION_BUILD_DIR forces the output into a predictable local folder
+          # Using CONFIGURATION_BUILD_DIR breaks CocoaPods. Let Xcode build to default DerivedData.
           xcodebuild -workspace FinanzasJG.xcworkspace \
             -scheme FinanzasJG \
             -configuration Release \
@@ -44,16 +44,17 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            CONFIGURATION_BUILD_DIR="$(PWD)/build/Release-iphoneos" \
             build
 
       - name: Package to .ipa
         run: |
-          # The app is compiled into the CONFIGURATION_BUILD_DIR we specified above
-          cd ios/build/Release-iphoneos
+          cd ios
+          # Locate the built .app in Xcode's DerivedData folder
+          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "FinanzasJG.app" -type d | head -n 1)
+          
           mkdir Payload
           # Move the .app into Payload (required structure for IPA)
-          mv FinanzasJG.app Payload/
+          mv "$APP_PATH" Payload/
           # Zip it into an IPA
           zip -r finanzas-jg-unsigned.ipa Payload/
 
@@ -61,5 +62,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: finanzas-jg-unsigned
-          path: ios/build/Release-iphoneos/finanzas-jg-unsigned.ipa
+          path: ios/finanzas-jg-unsigned.ipa
           retention-days: 7
