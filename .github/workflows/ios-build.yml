@@ -35,8 +35,8 @@ jobs:
         run: |
           cd ios
           # Build the release app for ARM64 (real device) but disable all signing checks
-          xcodebuild -workspace finanzasapp.xcworkspace \
-            -scheme finanzasapp \
+          xcodebuild -workspace FinanzasJG.xcworkspace \
+            -scheme FinanzasJG \
             -configuration Release \
             -sdk iphoneos \
             -allowProvisioningUpdates=NO \
@@ -51,13 +51,13 @@ jobs:
           cd ios/build/Build/Products/Release-iphoneos
           mkdir Payload
           # Move the .app into Payload (required structure for IPA)
-          mv finanzasapp.app Payload/
+          mv FinanzasJG.app Payload/
           # Zip it into an IPA
-          zip -r finanzasapp-unsigned.ipa Payload/
+          zip -r finanzas-jg-unsigned.ipa Payload/
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: finanzasapp-unsigned
-          path: ios/build/Build/Products/Release-iphoneos/finanzasapp-unsigned.ipa
+          name: finanzas-jg-unsigned
+          path: ios/build/Build/Products/Release-iphoneos/finanzas-jg-unsigned.ipa
           retention-days: 7
