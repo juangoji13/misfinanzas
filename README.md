@@ -1,56 +1,93 @@
-# Welcome to your Expo app 👋
+# FINANZAS JG 💰
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App de control financiero personal construida con **Expo Router** + **React Native** + **Supabase**.
 
-## Get started
+## Características
 
-1. Install dependencies
+- 🏦 **Multi-cuenta** — Cuentas de ahorro, corriente, efectivo, tarjetas débito y crédito
+- 💸 **Transacciones** — Registro de gastos e ingresos con categorías personalizadas
+- 🔄 **Transferencias** — Mover saldo entre cuentas propias
+- 🎯 **Metas de ahorro** — Define objetivos y aporta desde cualquier cuenta
+- 📊 **Presupuestos** — Límites mensuales por categoría con descuento automático
+- 📈 **Analíticas** — Gráficos de gasto por día, mes y año con desglose por categoría
+- 💳 **Cuotas de crédito** — Auto-genera pagos diferidos para compras a crédito
+- 🌎 **Multi-región** — Soporte para Colombia, México, Argentina, España y EE.UU.
+- 🔒 **Autenticación** — Login, registro y recuperación de contraseña vía Supabase Auth
 
-   ```bash
-   npm install
-   ```
+## Stack Tecnológico
 
-2. Start the app
+| Capa | Tecnología |
+|------|-----------|
+| Framework | Expo SDK 54 + React Native 0.81 |
+| Routing | Expo Router 6 (file-based) |
+| Backend | Supabase (Auth + PostgreSQL) |
+| Lenguaje | TypeScript (strict mode) |
+| Estado | React Context + hooks |
+| Animaciones | React Native Animated API |
 
-   ```bash
-   npx expo start
-   ```
+## Configuración
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Instalar dependencias
 
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Configurar variables de entorno
 
-### Other setup steps
+```bash
+cp .env.example .env
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Edita `.env` con tus credenciales de Supabase:
 
-## Learn more
+```
+EXPO_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+> ⚠️ **Nunca** commitees el archivo `.env` con credenciales reales.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 3. Iniciar la app
 
-## Join the community
+```bash
+npx expo start
+```
 
-Join our community of developers creating universal apps.
+Opciones de ejecución:
+- **Expo Go**: Escanea el QR desde la app Expo Go
+- **iOS Simulator**: Presiona `i` en la terminal
+- **Android Emulator**: Presiona `a` en la terminal
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Estructura del Proyecto
+
+```
+src/
+├── app/                # Screens (file-based routing)
+│   ├── (tabs)/         # Tab navigation (Inicio, Gestión, Analíticas, Perfil)
+│   ├── add.tsx         # Agregar transacción
+│   ├── add-account.tsx # Agregar cuenta/tarjeta
+│   ├── add-plan.tsx    # Crear meta o presupuesto
+│   ├── transfer.tsx    # Transferencia entre cuentas
+│   ├── login.tsx       # Inicio de sesión
+│   ├── register.tsx    # Registro
+│   └── forgot-password.tsx # Recuperación de contraseña
+├── components/         # Componentes reutilizables
+├── config/             # Configuración de regiones
+├── lib/                # Contextos, Supabase client, lógica financiera
+├── theme/              # Tokens de diseño (colores, spacing, radii)
+└── types/              # Tipos TypeScript
+```
+
+## Scripts
+
+| Comando | Descripción |
+|---------|-------------|
+| `npm start` | Inicia el servidor de desarrollo |
+| `npm run ios` | Inicia en iOS Simulator |
+| `npm run android` | Inicia en Android Emulator |
+| `npm run lint` | Ejecuta ESLint |
+
+## Licencia
+
+MIT

@@ -1,0 +1,63 @@
+name: Build iOS Unsigned IPA (For Loadly)
+
+on:
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-14 # Ensures we have a recent macOS with Xcode 15+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          token: ${{ secrets.EXPO_TOKEN }} # (Optional) If you use EAS services, otherwise can be omitted if just using prebuild
+
+      - name: Prebuild iOS Project
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Build Unsigned iOS App
+        run: |
+          cd ios
+          # Build the release app for ARM64 (real device) but disable all signing checks
+          xcodebuild -workspace finanzasapp.xcworkspace \
+            -scheme finanzasapp \
+            -configuration Release \
+            -sdk iphoneos \
+            -allowProvisioningUpdates=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package to .ipa
+        run: |
+          # The app is compiled into the Build/Products/Release-iphoneos directory
+          cd ios/build/Build/Products/Release-iphoneos
+          mkdir Payload
+          # Move the .app into Payload (required structure for IPA)
+          mv finanzasapp.app Payload/
+          # Zip it into an IPA
+          zip -r finanzasapp-unsigned.ipa Payload/
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: finanzasapp-unsigned
+          path: ios/build/Build/Products/Release-iphoneos/finanzasapp-unsigned.ipa
+          retention-days: 7

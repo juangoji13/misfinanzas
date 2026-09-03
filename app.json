@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "finanzas-app",
+    "name": "Finanzas JG",
     "slug": "finanzas-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,9 @@
     "scheme": "finanzasapp",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.finanzasjg.app",
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +30,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#08090D",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
