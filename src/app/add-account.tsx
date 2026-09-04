@@ -19,10 +19,13 @@ import { useAuth } from '@/lib/auth-context';
 import { useRegion } from '@/lib/region-context';
 import { supabase } from '@/lib/supabase';
 import { formatAmountInput, formatMoney, parseAmount } from '@/lib/money';
+import { queryKeys } from '@/lib/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { accountPalette, colors, radius, spacing } from '@/theme';
 
 export default function AddAccountScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { user, loading: authLoading } = useAuth();
   const { region } = useRegion();
   const params = useLocalSearchParams();
@@ -73,6 +76,7 @@ export default function AddAccountScreen() {
           if (retry) throw retry;
         }
       }
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts(user.id) });
       router.back();
     } catch (e: unknown) {
       Alert.alert('Error', e instanceof Error ? e.message : 'No se pudo guardar');

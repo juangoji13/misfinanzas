@@ -17,10 +17,13 @@ import { useAuth } from '@/lib/auth-context';
 import { useRegion } from '@/lib/region-context';
 import { supabase } from '@/lib/supabase';
 import { formatAmountInput, parseAmount } from '@/lib/money';
+import { queryKeys } from '@/lib/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { colors, radius, spacing } from '@/theme';
 
 export default function AddPlanScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { user, loading: authLoading } = useAuth();
   const { region } = useRegion();
   const [type, setType] = useState<'goal' | 'budget'>('goal');
@@ -58,6 +61,7 @@ export default function AddPlanScreen() {
         });
         if (error) throw error;
       }
+      queryClient.invalidateQueries({ queryKey: type === 'goal' ? queryKeys.goals(user.id) : queryKeys.budgets(user.id) });
       router.back();
     } catch (e: unknown) {
       Alert.alert('Error', e instanceof Error ? e.message : 'No se pudo crear');
