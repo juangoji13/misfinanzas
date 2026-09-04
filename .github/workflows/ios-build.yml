@@ -31,7 +31,7 @@ jobs:
       - name: Inject Environment Variables
         run: |
           echo "EXPO_PUBLIC_SUPABASE_URL=http://149.130.186.213:8000" >> .env
-          echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlZmF1bHQiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MTA4NTA5NCwiZXhwIjoxOTU2NjYxMDk0fQ.mHnZtM0026e-4QG_l72jP28JjD256Y1P1VbH6_OaEhs" >> .env
+          echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE" >> .env
 
       - name: Prebuild iOS Project
         run: npx expo prebuild --platform ios --clean
