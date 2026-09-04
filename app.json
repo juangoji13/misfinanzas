@@ -10,7 +10,12 @@
     "ios": {
       "icon": "./assets/images/icon.png",
       "bundleIdentifier": "com.finanzasjg.app",
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
