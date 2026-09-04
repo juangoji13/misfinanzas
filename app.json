@@ -34,6 +34,12 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Permite a Finanzas JG usar Face ID para proteger el acceso a tus cuentas bancarias y presupuesto."
+        }
       ]
     ],
     "experiments": {

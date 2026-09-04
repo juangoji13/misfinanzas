@@ -28,6 +28,11 @@ jobs:
           expo-version: latest
           token: ${{ secrets.EXPO_TOKEN }} # (Optional) If you use EAS services, otherwise can be omitted if just using prebuild
 
+      - name: Inject Environment Variables
+        run: |
+          echo "EXPO_PUBLIC_SUPABASE_URL=https://luvmvcdjibhuahxhqzng.supabase.co" >> .env
+          echo "EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1dm12Y2RqaWJodWFoeGhxem5nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MzcyNDYsImV4cCI6MjEwMzAxMzI0Nn0.NBnE8b582M-RyrypWObuv43CFK33vmLm3Z9Sbs5q5OY" >> .env
+
       - name: Prebuild iOS Project
         run: npx expo prebuild --platform ios --clean
 
